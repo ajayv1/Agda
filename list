@@ -1,0 +1,62 @@
+-- input a list and find its length
+
+module AllOperationOnList where
+
+open import Data.Nat
+open import Data.Bool
+
+data List (A : Set) : Set where
+  []   : List A
+  _::_ : A -> List A -> List A
+
+length : {x : Set} → List x → ℕ
+length [] = 0
+length (_ :: xs) = 1 + length xs
+
+ex : List ℕ
+ex = 1 :: (2 :: (3 :: []))
+
+-- load with C-c C-l
+-- type C-c C-n, and write length ex
+
+_++_ : {A : Set} → List A → List A → List A
+[] ++ ys = ys
+(x :: xs) ++ ys = x :: (xs ++ ys)
+
+ex1 : List ℕ
+ex1 = 1 :: ( 2 :: ( 5 :: (6 :: (7 :: []))))
+
+replicate : { A : Set} → ℕ → A → List A
+replicate 0  x = []
+replicate (suc n) x = x :: replicate n x
+
+map : {A B : Set} → (A → B) → List A → List B
+map f [] = []
+map f ( x :: xs) = f x :: map f xs
+
+
+filter : {A : Set} -> (A -> Bool) -> List A -> List A
+filter p [] = []
+filter p (x :: xs) with p x
+...                | true  = x :: filter p xs
+...                | false = filter p xs
+
+
++3_ : ℕ → ℕ
++3 n = 3 + n
+
+>3_ : ℕ → Bool
+>3 0 = false
+>3 1 = false
+>3 2 = false
+>3 3 = false
+>3 _ = true 
+
+ex2 : List ℕ
+ex2 = 1 :: ( 2 :: ( 5 :: (6 :: (7 :: []))))
+
+ex3 : List ℕ
+ex3 = filter (>3_) ex2
+
+ex4 : List ℕ
+ex4 = map (+3_) ex2
