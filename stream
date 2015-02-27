@@ -1,0 +1,28 @@
+-- trying to familier with stream.
+-- first try to get head of a stream. We will need this operation on the way to dedekind's cut.
+-- from now on i will keep updating in this file.
+
+open import Data.Integer
+open import Coinduction
+
+module pr13 where
+
+data Stream (A : Set ) : Set where
+    _::_ : A → ∞ (Stream A) → Stream A
+
+head : ∀ {A} → Stream A → A
+head (x :: xs) = x
+
+enum : ℤ → Stream ℤ
+enum n = n :: (♯ enum (suc n))
+
+num : ℤ
+num = + 4
+
+ex : Stream ℤ
+ex = enum num
+
+--type control c control n head ex
+-- result = + 4
+
+-- Now i am thinking to write filter function.
