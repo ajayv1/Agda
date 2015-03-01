@@ -1,0 +1,154 @@
+-- Implemented Dedekind's cut over integer.
+-- I notified what i did and some of my doubt also.
+
+open import Coinduction
+open import Data.Integer
+open import Data.Bool
+
+module dedekindcut where
+
+data Stream (A : Set ) : Set where
+    _::_ : A → ∞ (Stream A) → Stream A
+
+head : ∀ {A} → Stream A → A
+head (x :: xs) = x
+
+-- define 1 as a integer.
+one : ℤ
+one = + 1
+
+-------------------------------------------------------------------------------------------------------------------
+--Note : here x is the cut i.e x == (L,R)
+-- Define L set which is the set of all integer less than or equal to x.  
+-- Define R set which is the set of all integer greater than x.
+
+lnum : ℤ → Stream ℤ
+lnum n = n :: (♯ lnum (n - one))
+
+rnum : ℤ → Stream ℤ
+rnum n = suc(n)  :: (♯ rnum (n + one))
+
+---------------------------------------------------------------------------------------------------------------------
+--define the L and R set for the integer +4. 
+
+num : ℤ
+num = + 4
+
+l1 : Stream ℤ
+l1 = lnum num
+
+r1 : Stream ℤ
+r1 = rnum num    
+
+----------------------------------------------------------------------------------------------------------------------
+--define the L and R for another integer let say +8.
+
+num1 : ℤ
+num1 = + 8
+
+l2 : Stream ℤ
+l2 = lnum num1
+
+r2 : Stream ℤ
+r2 = rnum num1
+
+-----------------------------------------------------------------------------------------------------------------------
+--Till here, I have collected (L1,R1) for +4 and (L2,R2) for +8.
+--Now i will define the arithmetic operation on them.  
+-----------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------
+-- define the addition operation using zipwith function
+-- and calculate the (L3,R3) == (L1+L2, R1+R2)
+
+zipwith : ∀ {A B C} → 
+              ( A → B → C) → Stream A → Stream B → Stream C
+zipwith f (x :: xs) (y :: ys) = f x y :: ♯ zipwith f  (♭ xs) (♭ ys)
+
+l3 : Stream ℤ
+l3 = zipwith _+_ l1 l2
+
+r3 : Stream ℤ
+r3 = zipwith _+_ r1 r2
+
+------------------------------------------------------------------------------------------------------------------------
+--Doubt1 : Here I tried to implement ' < ' function but not able to implement yet. 
+
+{-
+zero : ℤ
+zero = + 0
+_<_ : ℤ → ℤ → Bool
+(+ m) < zero = false
+--(-[one + _]) < zero = true
+zero < (+ m) = true
+--zero < (- m) = false
+--(m + one) < (n + one) = m < n
+-}
+
+--------------------------------------------------------------------------------------------------------------------------
+-- To check the validity of cut I need to use the ' < ' function anyhow. So i tried in other way, 
+-- in Data.Integer there is predefined function minimum. 
+
+mini : ℤ
+mini = head l1 ⊓  head r1  -- It shows l1 have no largest element.
+
+mini1 : ℤ
+mini1 = head l2 ⊓  head r2 
+
+mini2 : ℤ
+mini2 = head l3 ⊓  head r3 
+
+data _==_ {A : Set}(x : A) : A → Set where
+  refl : x == x
+
+--Doubt2 : I tried to implement equivalent function but getting error as repeated variables in pattern : zero
+{-_==_ : ℤ → ℤ → Bool
+(zero) == (zero) = true
+zero eq m = false
+suc m eq suc n = m eq n 
+-}
+--res : Bool
+
+-- so I use the minimum function to check whether cut is valid or not.
+
+res = mini == head l1 -- got the result +4 == +4 which shows cut is valid.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+--Things to be done:
+  --  1: defined over negative integer.
+  --  2: defined over rational.
+
+-- Biggest Doubt:
+  -- As cut will said to be valid iff union of L and R set will produce the complete set of integers.
+  -- Let consider I want to add +4 and +8.
+  
+  -- for +4  ==   ( (. . . 0 1 2 3 4) , (5 6 7 8 . . .) ) defined the L and R set respectively in ( , ).
+  
+  -- for +8  ==   ( (. . . 4 5 6 7 8) , (9 10 11 12 . . .) ) , And after addition we get
+  
+  -- for +12 ==   ( (. . . 4 6 8 10 12) , (14 16 18 20 . . .) )
+  
+  -- addition will denote another cut which is equivalent to +12
+  -- But here collecton of L and R for +12 will not consistes all Integer. 
+  -- So where I am wrong?? Is addition (L1,R1) + (L2,R2) correct ?? If not then how should i add??
+  
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
