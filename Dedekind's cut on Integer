@@ -116,7 +116,7 @@ res = mini == head l1 -- got the result +4 == +4 which shows cut is valid.
 ----------------------------------------------------------------------------------------------------------------------------
 
 --Things to be done:
-  --  1: defined over negative integer.
+  --  1: defined over negative integer. [ also completed, to represent negative integer 4 we just need to write - + 4. ] 
   --  2: defined over rational.
 
 -- Biggest Doubt:
