@@ -1,0 +1,18 @@
+module integerGt where
+  open import Data.Integer
+  open import Data.Nat as ℕ  
+  open import Data.Bool
+
+  _Gt_ : ℤ → ℤ → Bool
+  (+ ℕ.zero) Gt (+ ℕ.zero) = false
+  (+ ℕ.suc m) Gt (+ ℕ.zero) = true
+  (+ ℕ.zero) Gt (+ ℕ.suc n) = false
+  -[1+ m ] Gt (+ ℕ.zero) = false
+  -[1+ ℕ.zero ] Gt -[1+ ℕ.zero ] = false
+  -[1+ ℕ.zero ] Gt -[1+ ℕ.suc n ] = true
+  -[1+ ℕ.suc m ] Gt -[1+ ℕ.zero ] = false
+  (+ ℕ.zero) Gt -[1+ n ] = true
+  (+ ℕ.suc m) Gt -[1+ n ] = true
+  -[1+ m ] Gt (+ ℕ.suc n) = false
+  (+ ℕ.suc m) Gt (+ ℕ.suc n) = (+ m) Gt (+ n)
+  -[1+ ℕ.suc m ] Gt -[1+ ℕ.suc n ] = -[1+ m ] Gt -[1+ n ]
