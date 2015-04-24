@@ -1,0 +1,18 @@
+module integerGEq where
+  open import Data.Integer
+  open import Data.Nat as ℕ  
+  open import Data.Bool
+
+  _GE_ : ℤ → ℤ → Bool
+  (+ ℕ.zero) GE (+ ℕ.zero) = true
+  (+ ℕ.suc m) GE (+ ℕ.zero) = true
+  (+ ℕ.zero) GE (+ ℕ.suc n) = false
+  -[1+ m ] GE (+ ℕ.zero) = false
+  (-[1+ ℕ.zero ]) GE (-[1+ ℕ.zero ]) = true
+  -[1+ ℕ.zero ] GE -[1+ ℕ.suc n ] = true
+  -[1+ ℕ.suc m ] GE -[1+ ℕ.zero ] = false
+  (+ ℕ.zero) GE -[1+ n ] = true
+  (+ ℕ.suc m) GE -[1+ n ] = true
+  -[1+ m ] GE (+ ℕ.suc n) = false
+  (+ ℕ.suc m) GE (+ ℕ.suc n) = (+ m) GE (+ n)
+  -[1+ ℕ.suc m ] GE -[1+ ℕ.suc n ] = -[1+ m ] GE -[1+ n ]
