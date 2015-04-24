@@ -1,0 +1,18 @@
+module integerLt where
+  open import Data.Integer
+  open import Data.Nat as ℕ  
+  open import Data.Bool
+
+  _Lt_ : ℤ → ℤ → Bool
+  (+ ℕ.zero) Lt (+ ℕ.zero) = false
+  (+ ℕ.suc m) Lt (+ ℕ.zero) = false
+  (+ ℕ.zero) Lt (+ ℕ.suc n) = true
+  -[1+ m ] Lt (+ ℕ.zero) = true
+  (-[1+ ℕ.zero ]) Lt (-[1+ ℕ.zero ]) = false
+  -[1+ ℕ.zero ] Lt -[1+ ℕ.suc n ] = false
+  -[1+ ℕ.suc m ] Lt -[1+ ℕ.zero ] = true
+  (+ ℕ.zero) Lt -[1+ n ] = false
+  (+ ℕ.suc m) Lt -[1+ n ] = false
+  -[1+ m ] Lt (+ ℕ.suc n) = true
+  (+ ℕ.suc m) Lt (+ ℕ.suc n) = (+ m) Lt (+ n)
+  -[1+ ℕ.suc m ] Lt -[1+ ℕ.suc n ] = -[1+ m ] Lt -[1+ n ]
