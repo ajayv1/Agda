@@ -1,0 +1,18 @@
+module integerLEq where
+  open import Data.Integer
+  open import Data.Nat as ℕ  
+  open import Data.Bool
+
+  _LE_ : ℤ → ℤ → Bool
+  (+ ℕ.zero) LE (+ ℕ.zero) = true
+  (+ ℕ.suc m) LE (+ ℕ.zero) = false
+  (+ ℕ.zero) LE (+ ℕ.suc n) = true
+  -[1+ m ] LE (+ ℕ.zero) = true
+  -[1+ ℕ.zero ] LE -[1+ ℕ.zero ] = true
+  -[1+ ℕ.zero ] LE -[1+ ℕ.suc n ] = false
+  -[1+ ℕ.suc m ] LE -[1+ ℕ.zero ] = true
+  (+ ℕ.zero) LE -[1+ n ] = false
+  (+ ℕ.suc m) LE -[1+ n ] = false
+  -[1+ m ] LE (+ ℕ.suc n) = true
+  (+ ℕ.suc m) LE (+ ℕ.suc n) = (+ m) LE (+ n)
+  -[1+ ℕ.suc m ] LE -[1+ ℕ.suc n ] = -[1+ m ] LE -[1+ n ]
